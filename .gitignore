@@ -1,0 +1,23 @@
+node_modules/
+dist/
+icon.png
+*.log
+keys/
+edition.json
+test/tmp/
+out/
+.tmp/
+release/
+vendor/photorec/win32/**
+vendor/photorec/linux/**
+vendor/photorec/darwin/**
+vendor/photorec/source/**
+vendor/photorec/.fetch-*/
+vendor/photorec/*.zip
+vendor/photorec/*.tar.*
+# Private release evidence (dashboard screenshots, account identifiers) and local tool state
+docs/release-*/
+docs/internal/
+hosting/.wrangler/
+.env
+.env.*

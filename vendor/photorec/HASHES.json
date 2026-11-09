@@ -1,0 +1,295 @@
+{
+  "version": "7.2",
+  "architecture": "x86_64",
+  "provenance": {
+    "downloadPage": "https://www.cgsecurity.org/wiki/TestDisk_Download",
+    "checksumUrl": "https://www.cgsecurity.org/testdisk_sha256.txt",
+    "verifiedAt": "2026-10-16",
+    "method": "All four local archives matched the SHA-256 values independently published by CGSecurity over HTTPS. File hashes below were checked against members read from those verified archives. No release signature was verified."
+  },
+  "platforms": {
+    "win32": {
+      "url": "https://www.cgsecurity.org/testdisk-7.2.win64.zip",
+      "sha256": "e97e203ce77b6b1a3a37d01beccf069dc6c4632b579ffbb82ae739cdda229f38",
+      "files": {
+        "63/cygwin": {
+          "member": "testdisk-7.2/63/cygwin",
+          "sha256": "1a9b75481dba09d8f73b9b13f39d52db026bfc7ae8eb4de1d250388756445dbc",
+          "executable": false
+        },
+        "AUTHORS.txt": {
+          "member": "testdisk-7.2/AUTHORS.txt",
+          "sha256": "24f8f773d2f79b50b15acb86c2960a63eb87236bb9498358540289a116688c90",
+          "executable": false
+        },
+        "COPYING.txt": {
+          "member": "testdisk-7.2/COPYING.txt",
+          "sha256": "9f2e250993c6206fac643824e05e5a0d7d3e0895d9e09a5ce4b12bc2610afc11",
+          "executable": false
+        },
+        "cygewf-2.dll": {
+          "member": "testdisk-7.2/cygewf-2.dll",
+          "sha256": "e904b5a3f55572fec2d08d222a6c1a54dd768bbb72e666f8eebffa0c68c19214",
+          "executable": false
+        },
+        "cyggcc_s-seh-1.dll": {
+          "member": "testdisk-7.2/cyggcc_s-seh-1.dll",
+          "sha256": "38425ee608500b6808bcfe4569ea7f6387a436e8b779979c9c3c045201b87260",
+          "executable": false
+        },
+        "cygiconv-2.dll": {
+          "member": "testdisk-7.2/cygiconv-2.dll",
+          "sha256": "b5674bb002302ab874521499ca07edc30ace5a6beded599591743a2d9656a9cf",
+          "executable": false
+        },
+        "cygjpeg-8.dll": {
+          "member": "testdisk-7.2/cygjpeg-8.dll",
+          "sha256": "49c02ebeeb3d02ae5ef7760aba80b07f070e27100b7ac48fd5cd3fc77323df04",
+          "executable": false
+        },
+        "cygncursesw-10.dll": {
+          "member": "testdisk-7.2/cygncursesw-10.dll",
+          "sha256": "b2f0f7b56356244a4530934d95de622c58772b66bd356963ab345741a21d41a9",
+          "executable": false
+        },
+        "cygwin1.dll": {
+          "member": "testdisk-7.2/cygwin1.dll",
+          "sha256": "52062be7ef8f14445a81a5dff3b3ac3c7b74466159fffd542b22a83af8ac6b86",
+          "executable": false
+        },
+        "cygz.dll": {
+          "member": "testdisk-7.2/cygz.dll",
+          "sha256": "78d499f1d956edf00dd988c95f7f76174425c0fb47e3ddb56ba6af447f18f4f1",
+          "executable": false
+        },
+        "iconv.dll": {
+          "member": "testdisk-7.2/iconv.dll",
+          "sha256": "56a7c5e6f67da7aa083426c115993bffe5db5f416e45ca63927dce6d130bd6d5",
+          "executable": false
+        },
+        "libbz2-1.dll": {
+          "member": "testdisk-7.2/libbz2-1.dll",
+          "sha256": "8f5992efe8fb53f4d758a3ee69ba45bb6946bd423f7fcc26f82e14fdd5656b82",
+          "executable": false
+        },
+        "libewf-2.dll": {
+          "member": "testdisk-7.2/libewf-2.dll",
+          "sha256": "239961d0c468ce6c632345abb703c5424e723b32c1a86e7e61e4639a1ce0ab11",
+          "executable": false
+        },
+        "libfreetype-6.dll": {
+          "member": "testdisk-7.2/libfreetype-6.dll",
+          "sha256": "8ba4f47a486ddc5b45e96972b1e32a72be3ed62e613eeed8505d7738807d675a",
+          "executable": false
+        },
+        "libgcc_s_seh-1.dll": {
+          "member": "testdisk-7.2/libgcc_s_seh-1.dll",
+          "sha256": "26b4e0c252d1334d99d86fac26a1532ba749e184cd59b9136de043bd5270dc13",
+          "executable": false
+        },
+        "libglib-2.0-0.dll": {
+          "member": "testdisk-7.2/libglib-2.0-0.dll",
+          "sha256": "0e6003293133caf2ff3b8d873cfdfc414fed79cfd09ed42e5973723bd21b5951",
+          "executable": false
+        },
+        "libharfbuzz-0.dll": {
+          "member": "testdisk-7.2/libharfbuzz-0.dll",
+          "sha256": "2fa5115554c602aaff4634a480cfa3cbe4959bdbbeee42d6d321e9460d512706",
+          "executable": false
+        },
+        "libintl-8.dll": {
+          "member": "testdisk-7.2/libintl-8.dll",
+          "sha256": "269b6768f4f852c126359533f0c7e8cdc858951db17c2201b67e926f12a9370a",
+          "executable": false
+        },
+        "libjpeg-62.dll": {
+          "member": "testdisk-7.2/libjpeg-62.dll",
+          "sha256": "5dab29d2a5521d81d9ad30874fc495507c070996532b15886d0db6fe929956dd",
+          "executable": false
+        },
+        "libpcre-1.dll": {
+          "member": "testdisk-7.2/libpcre-1.dll",
+          "sha256": "63017cff2af6c1fd7fd2c0b3eb9790b5c4d9c710bdec3151e96a7462bf994558",
+          "executable": false
+        },
+        "libpcre2-16-0.dll": {
+          "member": "testdisk-7.2/libpcre2-16-0.dll",
+          "sha256": "c0841da8789e9faa1d853216163478eb90299254dc3f441fd55b2f60121b5ac8",
+          "executable": false
+        },
+        "libpng16-16.dll": {
+          "member": "testdisk-7.2/libpng16-16.dll",
+          "sha256": "c21e93636d0752bae17aed23d45dae65dcf08a31d59fe24245e18d7e0713ede3",
+          "executable": false
+        },
+        "libssp-0.dll": {
+          "member": "testdisk-7.2/libssp-0.dll",
+          "sha256": "2be3afa998237a39e86f0f035bfc6abdcd51c3733efedfa18217f6c30f852627",
+          "executable": false
+        },
+        "libstdc++-6.dll": {
+          "member": "testdisk-7.2/libstdc++-6.dll",
+          "sha256": "3567182fddf2139f5d794ff1db3f454e8b9b1f48b8617e6143352851f664c87a",
+          "executable": false
+        },
+        "libwinpthread-1.dll": {
+          "member": "testdisk-7.2/libwinpthread-1.dll",
+          "sha256": "13014d3b7ee5194f0269d6bb15556f4b0924808c52f0536155811daf41c7a27c",
+          "executable": false
+        },
+        "NEWS.txt": {
+          "member": "testdisk-7.2/NEWS.txt",
+          "sha256": "6cd6b0d6c2ac3a413ccba78533105b3987df50017569dc0481fa72311c9432d8",
+          "executable": false
+        },
+        "photorec_win.exe": {
+          "member": "testdisk-7.2/photorec_win.exe",
+          "sha256": "d75b9a6ff60f91479085a578aca518abb1cd7405f24506a61afa2f7e222147bf",
+          "executable": false
+        },
+        "platforms/qwindows.dll": {
+          "member": "testdisk-7.2/platforms/qwindows.dll",
+          "sha256": "02f0d11790f35187f5a5c2b698dc4ba57c9f2d1ce8e584ebce6e862133e4674d",
+          "executable": false
+        },
+        "qphotorec_win.exe": {
+          "member": "testdisk-7.2/qphotorec_win.exe",
+          "sha256": "561a06050c8b1303706d6d33558ccc81cfb9137393fc040f25405316243bd7eb",
+          "executable": false
+        },
+        "qt.conf": {
+          "member": "testdisk-7.2/qt.conf",
+          "sha256": "6c6eed542fd955f532bdadf0e7136aefa8def2a8dc0f8629ff61e2a6ed684dc7",
+          "executable": false
+        },
+        "Qt5Core.dll": {
+          "member": "testdisk-7.2/Qt5Core.dll",
+          "sha256": "03e09d9dd941233b87e96fd0e6a117790a621f3afb971265d65be80334f831e0",
+          "executable": false
+        },
+        "Qt5Gui.dll": {
+          "member": "testdisk-7.2/Qt5Gui.dll",
+          "sha256": "bdcc621a04568db6c1b765083addbd1f817e32f59f8d1679cc64b6f06a0d98c5",
+          "executable": false
+        },
+        "Qt5Widgets.dll": {
+          "member": "testdisk-7.2/Qt5Widgets.dll",
+          "sha256": "925cbe1bcfc9f049b778691584187afd0bdcdfb6274dc1951bc8d96786d44611",
+          "executable": false
+        },
+        "readme.txt": {
+          "member": "testdisk-7.2/readme.txt",
+          "sha256": "68af43175eeba5e1104074600f807492391f2928da944786ea1acc507dc5ce02",
+          "executable": false
+        },
+        "THANKS.txt": {
+          "member": "testdisk-7.2/THANKS.txt",
+          "sha256": "12b2bd649cdb8df8a649ffed716af77570982194b96a1fffabc18d830153ccc5",
+          "executable": false
+        },
+        "VERSION.txt": {
+          "member": "testdisk-7.2/VERSION.txt",
+          "sha256": "81bdb4615fad4dd3953406c3505ed2bea8cd550274bd16cbe9576f45a786a385",
+          "executable": false
+        },
+        "zlib1.dll": {
+          "member": "testdisk-7.2/zlib1.dll",
+          "sha256": "65aee53b03ea7b0182130346598318a095abd682ccb925a8aa233a59bf29bd81",
+          "executable": false
+        }
+      }
+    },
+    "linux": {
+      "url": "https://www.cgsecurity.org/testdisk-7.2.linux26-x86_64.tar.bz2",
+      "sha256": "19669b6d36314d6e531efdf836c768574e8a556d1e9db3c8f3c4e93a5092cb1c",
+      "files": {
+        "AUTHORS": {
+          "member": "testdisk-7.2/AUTHORS",
+          "sha256": "8f5579dd67de44c5fe85eca3e4426bcbd1a303a8268e00523bdede9abe849108",
+          "executable": false
+        },
+        "COPYING": {
+          "member": "testdisk-7.2/COPYING",
+          "sha256": "ab15fd526bd8dd18a9e77ebc139656bf4d33e97fc7238cd11bf60e2b9b8666c6",
+          "executable": false
+        },
+        "l/linux": {
+          "member": "testdisk-7.2/l/linux",
+          "sha256": "b70a4941416eb703a01b5a06fd1c914880452302b0e0b2a7dea12600607824a7",
+          "executable": false
+        },
+        "NEWS": {
+          "member": "testdisk-7.2/NEWS",
+          "sha256": "deccabe2d4018a8ecb767b707b8055eb9548b16ddaeeb212316d4b1e3c95d98c",
+          "executable": false
+        },
+        "photorec": {
+          "member": "testdisk-7.2/photorec_static",
+          "sha256": "2063ed2f649309e296bb880403391b97c9846b39ca7adfcc343c87bf7a5a1d38",
+          "executable": true
+        },
+        "readme.txt": {
+          "member": "testdisk-7.2/readme.txt",
+          "sha256": "8b2f164ec355ad95d17eb18f2b3992aae9d8c26b1e1fac2bcd26354f9b0049df",
+          "executable": false
+        },
+        "VERSION": {
+          "member": "testdisk-7.2/VERSION",
+          "sha256": "ff5118e9256d3b18c39fce057f29744c7b8d2c5307e4894fc62347cb48565b25",
+          "executable": false
+        }
+      }
+    },
+    "darwin": {
+      "url": "https://www.cgsecurity.org/testdisk-7.2.mac_intel_x86_64.tar.bz2",
+      "sha256": "05cfe47e4d0c5667ba218af83b81aa18ad1e4cbbedfcab334e6f770d53d59386",
+      "files": {
+        "78/xterm-color": {
+          "member": "testdisk-7.2/78/xterm-color",
+          "sha256": "fbb351e5a326488f5b44b9ca75fb06d809cac76c80f7319151c4d85cb3bd78d0",
+          "executable": false
+        },
+        "AUTHORS": {
+          "member": "testdisk-7.2/AUTHORS",
+          "sha256": "8f5579dd67de44c5fe85eca3e4426bcbd1a303a8268e00523bdede9abe849108",
+          "executable": false
+        },
+        "COPYING": {
+          "member": "testdisk-7.2/COPYING",
+          "sha256": "ab15fd526bd8dd18a9e77ebc139656bf4d33e97fc7238cd11bf60e2b9b8666c6",
+          "executable": false
+        },
+        "NEWS": {
+          "member": "testdisk-7.2/NEWS",
+          "sha256": "deccabe2d4018a8ecb767b707b8055eb9548b16ddaeeb212316d4b1e3c95d98c",
+          "executable": false
+        },
+        "photorec": {
+          "member": "testdisk-7.2/photorec",
+          "sha256": "a17df650afa862977a649c9e82c3fe724fc00a0b8851280776681884f69e3350",
+          "executable": true
+        },
+        "readme.txt": {
+          "member": "testdisk-7.2/readme.txt",
+          "sha256": "418df9607ce50c8b8bbaef041669f23ce3f21a2d4ff8eeb128e08f143ea12785",
+          "executable": false
+        },
+        "VERSION": {
+          "member": "testdisk-7.2/VERSION",
+          "sha256": "ed2397367f541d3e696fa0f15e803dbb88add7e726fce232691183650109e820",
+          "executable": false
+        }
+      }
+    },
+    "source": {
+      "url": "https://www.cgsecurity.org/testdisk-7.2.tar.bz2",
+      "sha256": "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a5a9f2feb813c283f",
+      "files": {
+        "testdisk-7.2.tar.bz2": {
+          "sha256": "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a5a9f2feb813c283f",
+          "executable": false
+        }
+      }
+    }
+  }
+}

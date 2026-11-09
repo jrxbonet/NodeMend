@@ -1,0 +1,41 @@
+// Dev tool: headless screenshots of each tab. Usage: electron shot.js <outPrefix>
+process.env.TIDYWIN_NO_WINDOW = '1';
+const { app, BrowserWindow } = require('electron');
+const path = require('path'); const fs = require('fs');
+require('./main.js');
+const wait = ms => new Promise(r => setTimeout(r, ms));
+app.whenReady().then(async () => {
+  const out = process.argv[2] || 'shot';
+  const win = new BrowserWindow({ width: 1280, height: 860, show: false, backgroundColor: '#070b16', webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: false } });
+  win.webContents.on('console-message', (e, level, msg) => { if (level >= 2) console.log('[renderer]', msg); });
+  await win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  for (let i = 0; i < 30 && !(await win.webContents.executeJavaScript('!!(state.sys && state.cats.length)')); i++) await wait(1000);
+  await wait(800);
+  fs.writeFileSync(out + '-dashboard.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('cleaner'); analyze()`);
+  await wait(16000);
+  fs.writeFileSync(out + '-cleaner.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('health'); document.querySelector('#btn-diag').click()`);
+  await wait(10000);
+  fs.writeFileSync(out + '-health.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('updates'); refreshWinget(); loadStartup()`);
+  await wait(10000);
+  fs.writeFileSync(out + '-updates.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('startup')`);
+  await wait(1200);
+  fs.writeFileSync(out + '-startup.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('updates'); checkDrivers()`);
+  await wait(60000);
+  fs.writeFileSync(out + '-drivers.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('duplicates'); loadDupRoots().then(() => { state.dupRoots = [state.dupRoots.find(r => /Downloads/i.test(r)) || state.dupRoots[0]]; renderDupRoots(); document.querySelector('#dup-min').value = '1048576'; return scanDuplicates(); })`);
+  await wait(45000);
+  fs.writeFileSync(out + '-duplicates.png', (await win.capturePage()).toPNG());
+  await win.webContents.executeJavaScript(`showTab('dashboard'); document.querySelector('#all-card').hidden = false; applyIcons(document.querySelector('#all-card')); renderAllSteps({diag:{state:'done',secs:3},clean:{state:'done',secs:41},cleanmgr:{state:'running'}})`);
+  await wait(1200);
+  fs.writeFileSync(out + '-doall.png', (await win.capturePage()).toPNG());
+  // License tab: the enterprise card fetches report/audit/schedule status asynchronously, so give it a moment.
+  await win.webContents.executeJavaScript(`showTab('license')`);
+  await wait(2500);
+  fs.writeFileSync(out + '-license.png', (await win.capturePage()).toPNG());
+  app.exit(0);
+});

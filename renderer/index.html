@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>NodeMend</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand"><span class="brand-mark" data-icon="broom"></span><div><div class="brand-name">NodeMend</div><div class="brand-sub">maintenance toolkit</div><div class="brand-org" hidden></div></div></div>
+    <nav>
+      <button class="nav-btn active" data-tab="dashboard" data-icon="home">Dashboard</button>
+      <button class="nav-btn" data-tab="cleaner" data-icon="broom">Cleaner</button>
+      <button class="nav-btn" data-tab="health" data-icon="pulse">Health &amp; Repair</button>
+      <button class="nav-btn" data-tab="updates" data-icon="upload">Updates</button>
+      <button class="nav-btn" data-tab="duplicates" data-icon="copy">Duplicates</button>
+      <button class="nav-btn" data-tab="programs" data-icon="trash">Uninstall</button>
+      <button class="nav-btn" data-tab="startup" data-icon="rocket">Startup</button>
+      <button class="nav-btn" data-tab="recovery" data-icon="refresh">File Recovery</button>
+      <button class="nav-btn" data-tab="storage" data-icon="disk">Disk Analyzer</button>
+      <button class="nav-btn" data-tab="privacy" data-icon="shield">Privacy</button>
+      <button class="nav-btn" data-tab="performance" data-icon="zap">Performance</button>
+      <button class="nav-btn" data-tab="smart" data-icon="clock">Smart Cleaning</button>
+      <button class="nav-btn" data-tab="cloud" data-icon="copy">Cloud Folders</button>
+      <button class="nav-btn" data-tab="vpn" data-icon="shield">VPN Setup</button>
+      <button class="nav-btn" data-tab="license" data-icon="key">About</button>
+    </nav>
+    <div class="side-foot">
+      <div id="lic-badge" class="badge" title="Open the License tab">checking…</div>
+      <div id="elev-badge" class="badge">checking…</div>
+      <div id="version" class="muted small"></div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <header id="topbar">
+      <h1 id="tab-title">Dashboard</h1>
+      <div class="actions">
+        <button id="btn-report" class="ghost" data-icon="file" title="Save a maintenance report">Export report</button>
+        <button id="btn-report-json" class="ghost" data-icon="file" data-edition="enterprise" title="Save the machine-readable report (schema 1)" hidden>Save JSON</button>
+        <button id="btn-cancel" class="danger" data-icon="stop" hidden>Cancel task</button>
+      </div>
+    </header>
+
+    <div id="elev-banner" class="banner warn" hidden>
+      Not running as administrator — repairs, Windows Update, system temp cleanup and startup changes need elevation.
+      <button id="btn-elevate" data-icon="shield">Restart as administrator</button>
+    </div>
+    <div id="lic-banner" class="banner warn" hidden><span id="lic-banner-text"></span><button id="btn-lic-banner" data-icon="key">Enter license</button></div>
+    <div id="managed-banner" class="banner info" hidden></div>
+
+    <!-- ============ DASHBOARD ============ -->
+    <section id="tab-dashboard" class="tab active">
+      <div class="toolbar">
+        <button id="btn-refresh-sys" data-icon="refresh">Refresh</button>
+        <button id="btn-quick" class="needs-idle" data-icon="zap" data-action="quick">Quick maintenance</button>
+        <button id="btn-all" class="primary needs-idle" data-icon="rocket" data-action="do-all" title="Runs every tool in sequence: diagnostics, cleanup, repairs, scans, updates, drivers, apps, duplicates">Do all the things</button>
+        <span class="hint">Quick = clean, Defender signatures, DISM scan, app update list. Do all the things = every tool, start to finish (30–90 min).</span>
+      </div>
+      <div id="all-card" class="card accent" hidden style="margin-bottom:16px">
+        <h3 data-icon="rocket">Do all the things</h3>
+        <div id="all-steps" class="steps"></div>
+        <div id="all-summary" class="muted small" style="margin-top:8px"></div>
+      </div>
+      <div id="sys-cards" class="grid cards"><div class="card"><div class="muted">Loading system info…</div></div></div>
+    </section>
+
+    <!-- ============ CLEANER ============ -->
+    <section id="tab-cleaner" class="tab">
+      <div class="toolbar">
+        <button id="btn-analyze" class="needs-idle" data-icon="search">Analyze</button>
+        <button id="btn-clean" class="primary needs-idle" data-icon="broom" data-action="clean" disabled>Clean selected</button>
+        <button id="btn-cleanmgr" class="needs-idle" data-icon="disk" data-action="cleanmgr" title="Runs Windows Disk Cleanup silently, including Windows Update Cleanup">Windows Disk Cleanup</button>
+        <span id="clean-summary" class="hint"></span>
+      </div>
+      <div id="clean-groups" class="grid two"></div>
+      <div id="clean-result" class="result" hidden></div>
+    </section>
+
+    <!-- ============ HEALTH ============ -->
+    <section id="tab-health" class="tab">
+      <div class="toolbar">
+        <button id="btn-diag" class="primary needs-idle" data-icon="pulse">Run diagnostics</button>
+        <span class="sep"></span>
+        <button class="needs-idle exe" data-exe="dism-scan" title="Checks the component store for corruption (read-only, ~2 min)">DISM ScanHealth</button>
+        <button class="needs-idle exe" data-exe="dism-restore" data-action="dism-restore" title="Repairs the component store from Windows Update (5–20 min)">DISM RestoreHealth</button>
+        <button class="needs-idle exe" data-exe="sfc" data-action="sfc" title="System File Checker: verifies and repairs protected system files (5–15 min)">SFC /scannow</button>
+        <button class="needs-idle exe" data-exe="dism-cleanup" data-action="dism-cleanup" title="Removes superseded component versions (WinSxS)">Component cleanup</button>
+        <button class="needs-idle exe" data-exe="chkdsk" title="Online read-only file-system scan of C:">CHKDSK /scan</button>
+        <button class="needs-idle exe" data-exe="maintenance" title="Triggers Windows Automatic Maintenance now">Automatic maintenance</button>
+        <button class="needs-idle" id="btn-defscan" data-icon="shield" data-action="defender" title="Microsoft Defender quick scan">Defender quick scan</button>
+        <span class="sep"></span>
+        <button class="ghost" data-open="eventvwr" data-icon="ext">Event Viewer</button>
+        <button class="ghost" data-open="reliability" data-icon="ext">Reliability Monitor</button>
+        <button class="ghost" data-open="msinfo" data-icon="ext">System Information</button>
+      </div>
+      <div id="diag-cards" class="grid cards"><div class="card"><div class="muted">Run diagnostics to inspect event logs, crashes, services, SMART and more.</div></div></div>
+    </section>
+
+    <!-- ============ UPDATES ============ -->
+    <section id="tab-updates" class="tab">
+      <div class="block">
+        <div class="block-head"><h2>Windows Update</h2>
+          <div>
+            <button id="btn-wu-check" class="needs-idle" data-icon="search">Check</button>
+            <button id="btn-wu-install" class="primary needs-idle" data-icon="upload" data-action="wu-install" disabled>Install pending</button>
+            <button class="ghost" data-open="ms-settings:windowsupdate" data-icon="ext">Open Settings</button>
+          </div></div>
+        <div id="wu-body" class="muted">Not checked yet.</div>
+      </div>
+      <div class="block">
+        <div class="block-head"><h2>Microsoft Defender</h2>
+          <div><button id="btn-defupdate" class="needs-idle" data-icon="shield" data-action="defender">Update signatures</button>
+            <button class="ghost" data-open="ms-settings:windowsdefender" data-icon="ext">Open Windows Security</button></div></div>
+        <div id="def-body" class="muted"></div>
+      </div>
+      <div class="block">
+        <div class="block-head"><h2>Drivers (Microsoft Update, all vendors)</h2>
+          <div>
+            <button id="btn-drv-check" class="needs-idle" data-icon="search">Check drivers</button>
+            <button id="btn-drv-install" class="primary needs-idle" data-icon="upload" data-action="drivers-install" disabled>Install selected</button>
+            <button class="ghost" data-open="devmgmt" data-icon="ext">Device Manager</button>
+          </div></div>
+        <div id="drv-body" class="muted">Not checked yet. Searches the Microsoft Update driver catalog for the hardware in this PC, whoever made it.</div>
+      </div>
+      <div class="block">
+        <div class="block-head"><h2>Applications (winget)</h2>
+          <div>
+            <button id="btn-wg-refresh" class="needs-idle" data-icon="refresh">Refresh list</button>
+            <button id="btn-wg-selected" class="needs-idle" data-icon="upload" data-action="winget-upgrade" disabled>Upgrade selected</button>
+            <button id="btn-wg-all" class="primary needs-idle" data-icon="upload" data-action="winget-upgrade" disabled>Upgrade all</button>
+          </div></div>
+        <div id="wg-body" class="muted">Click Refresh list to query winget.</div>
+      </div>
+    </section>
+
+    <!-- ============ STARTUP ============ -->
+    <section id="tab-startup" class="tab">
+      <div class="toolbar">
+        <button id="btn-startup-refresh" data-icon="refresh">Refresh</button>
+        <button class="ghost" data-open="taskmgr-startup" data-icon="ext">Task Manager → Startup</button>
+        <span class="hint">Disabling keeps the entry in place; Windows just skips it at sign-in (same as Task Manager).</span>
+      </div>
+      <div id="startup-body" class="muted">Loading…</div>
+    </section>
+
+    <!-- ============ DUPLICATES ============ -->
+    <section id="tab-duplicates" class="tab">
+      <div class="toolbar">
+        <button id="btn-dup-scan" class="primary needs-idle" data-icon="search">Scan for duplicates</button>
+        <button id="btn-dup-add" class="needs-idle" data-icon="file">Add folder…</button>
+        <label class="hint">Min size <select id="dup-min"><option value="1">any</option><option value="102400" selected>100 KB</option><option value="1048576">1 MB</option><option value="10485760">10 MB</option><option value="104857600">100 MB</option></select></label>
+        <span class="sep"></span>
+        <button id="btn-dup-auto" class="needs-idle" data-icon="check" disabled title="Selects every copy except the oldest file in each group">Keep oldest, select the rest</button>
+        <button id="btn-dup-trash" class="danger needs-idle" data-icon="trash" data-action="dup-trash" disabled>Recycle selected</button>
+        <span id="dup-summary" class="hint"></span>
+      </div>
+      <div id="dup-roots" class="chips" style="margin-bottom:14px"></div>
+      <div id="dup-body" class="muted">Pick the folders to compare (your user folders are preselected) and click Scan. Files are matched by full content hash, so only true byte-for-byte copies are listed. Deleting sends files to the Recycle Bin.</div>
+    </section>
+
+    <!-- ============ PROGRAMS ============ -->
+    <section id="tab-programs" class="tab">
+      <div class="toolbar">
+        <button id="btn-prog-refresh" class="primary needs-idle" data-icon="refresh">Refresh list</button>
+        <input id="prog-filter" type="search" placeholder="Filter by name or publisher…" autocomplete="off">
+        <label class="hint"><input type="checkbox" id="prog-appx"> include Store apps</label>
+        <label class="hint">Sort <select id="prog-sort"><option value="name">name</option><option value="sizeMB">size</option><option value="installDate">install date</option></select></label>
+        <span id="prog-summary" class="hint"></span>
+      </div>
+      <div id="prog-body" class="muted">Click “Refresh list” to load installed software. Uninstalling runs each program’s own uninstaller; NodeMend only launches it.</div>
+    </section>
+
+    <section id="tab-recovery" class="tab">
+      <div class="card"><h2>Recover files</h2><p>Bundled PhotoRec finds file contents from drives and disk images. Recovery is best effort: overwritten data and SSD TRIM can prevent recovery. Names and folders may be lost.</p>
+        <div class="toolbar"><button id="rec-refresh" data-icon="refresh">Check engines</button><button id="rec-launch" class="primary needs-idle" data-action="recovery">Open drive recovery</button></div><p id="rec-engines" class="hint">Checking recovery engines…</p>
+      </div>
+      <div class="card"><h3>Recover a disk-image copy</h3><p class="hint">Works without administrator rights. Choose an .img, .dd or .raw file and a separate output folder. The source is read only.</p>
+        <label>Image <input id="rec-source" readonly placeholder="Choose a copied disk image"></label><button id="rec-pick-image">Choose image</button>
+        <label>Output folder <input id="rec-destination" readonly placeholder="Choose a folder outside the image’s folder"></label><button id="rec-pick-destination">Choose output folder</button>
+        <label>File types <select id="rec-types"><option value="photos">Photos (JPG, PNG)</option><option value="documents">Documents (PDF, DOC, DOCX)</option><option value="all">Photos, documents and ZIP archives</option></select></label>
+        <button id="rec-run" class="primary needs-idle" data-action="recovery">Recover from image</button><pre id="rec-result" class="hint"></pre>
+      </div>
+      <div id="rec-winfr" class="card"><h3>Microsoft Windows File Recovery</h3><p class="hint">Optional Microsoft Store engine. Save to a different physical drive. This requires administrator rights.</p>
+        <label>Source drive <input id="rec-drive-source" value="C:" maxlength="2"></label><label>Output drive <input id="rec-drive-destination" placeholder="E:" maxlength="2"></label>
+        <label>Mode <select id="rec-mode"><option value="regular">Recently deleted (NTFS)</option><option value="extensive">Extensive scan</option></select></label>
+        <label>File patterns <input id="rec-filters" value="*.pdf, *.docx, *.jpg, *.png"></label><button id="rec-winfr-run" class="needs-idle" data-action="recovery">Recover with Microsoft engine</button>
+        <button id="rec-store" class="ghost">Get Microsoft’s free engine</button>
+      </div><p class="hint">PhotoRec is an independent GPL-licensed tool by CGSecurity. Its license and matching source archive are supplied with NodeMend.</p>
+    </section>
+    <section id="tab-storage" class="tab"><div class="card"><h2>Disk Analyzer</h2><p>See large files and folders before deciding what to remove. This scan does not delete anything.</p><button id="disk-pick">Choose folder</button><input id="disk-root" readonly><button id="disk-run" class="primary needs-idle" data-action="disk-analyze">Analyze storage</button><div id="disk-results"></div></div></section>
+    <section id="tab-privacy" class="tab"><div class="card"><h2>Advanced privacy</h2><p>Clear browsing history and selected advertising-tracker cookies. Saved passwords, ordinary login cookies and bookmarks are preserved. Close the selected browsers before scanning.</p><button id="privacy-scan" class="needs-idle">Scan browser profiles</button><div id="privacy-results"></div><button id="privacy-clean" class="danger needs-idle" data-action="privacy">Clear selected privacy data</button><p class="hint">This clears local data; it does not spoof your browser fingerprint or delete records held by websites.</p></div></section>
+    <section id="tab-performance" class="tab"><div class="card"><h2>Performance controls</h2><p>Pause supported optional background apps and resume them when needed. System processes and NodeMend are protected. Paused apps cannot do background work until resumed.</p><button id="perf-refresh" class="needs-idle">List supported apps</button><div id="perf-results"></div><button id="perf-resume-all" class="needs-idle" data-action="performance">Resume apps paused by NodeMend</button></div></section>
+    <section id="tab-smart" class="tab"><div class="card"><h2>Automatic cache cleaning</h2><p>Clean safe cache categories while NodeMend stays open. Recycle Bin and personal files are excluded. This does not install a system service or run when NodeMend is closed.</p><label>Every <select id="smart-minutes"><option value="15">15 minutes</option><option value="60" selected>hour</option><option value="1440">day</option></select></label><button id="smart-enable" class="needs-idle" data-action="smart-clean">Enable automatic cache cleaning</button><button id="smart-disable">Turn off</button><p id="smart-status" class="hint">Off by default</p></div></section>
+    <section id="tab-cloud" class="tab"><div class="card"><h2>Synced cloud folders</h2><p>Analyze a local Google Drive or OneDrive sync folder for large files, then use Duplicate Files to compare contents. This version does not sign into cloud accounts or scan remote-only files through their APIs.</p><button id="cloud-pick">Choose local sync folder</button><input id="cloud-root" readonly><button id="cloud-analyze" class="needs-idle" data-action="disk-analyze">Analyze synced folder</button><div id="cloud-results"></div><p class="hint">Moving or deleting a synced file can affect other devices and the cloud account. Remote-only files may require their sync client to download data. Direct OAuth cloud cleaning is planned as a separately authorized connection.</p></div></section>
+    <section id="tab-vpn" class="tab"><div class="grid two"><div class="card"><h2>Proton VPN Free</h2><p>Provider-hosted VPN with a free individual account and unlimited data. Proton operates the servers; NodeMend does not run a VPN network.</p><button id="vpn-proton">Get Proton VPN Free</button><button id="vpn-wireguard">WireGuard setup guide</button><p class="hint">Use your own account and the provider’s official client. Integrated tunnel control is planned, not enabled in this build.</p></div><div class="card"><h2>Cloudflare WARP</h2><p>Free provider-hosted encrypted traffic for everyday network privacy. It does not offer country selection or anonymity.</p><button id="vpn-warp">Get Cloudflare WARP</button><p class="hint">VPN providers have their own terms and availability. Opening these pages does not install or connect a VPN.</p></div></div></section>
+
+    <!-- ============ LICENSE ============ -->
+    <section id="tab-license" class="tab">
+      <div class="grid cards">
+        <div id="about-open" class="card wide">
+          <h3 data-icon="shield">Free and open source</h3>
+          <p>NodeMend is free software from Namer-Lavan. Every feature is unlocked and there is nothing to buy. The source code is public under the GNU General Public License, version 3 or later.</p>
+          <p class="hint">If NodeMend saved you time, a donation helps pay for its development. Donating is optional and unlocks nothing.</p>
+          <div class="toolbar" style="margin:14px 0 0">
+            <button id="btn-about-donate" class="primary">Donate</button>
+            <button id="btn-about-source" class="ghost" data-icon="file">Source code</button>
+          </div>
+        </div>
+
+        <div id="lic-status" class="card wide">
+          <h3 data-icon="key">Status</h3>
+          <div id="lic-status-body" class="muted">Loading…</div>
+          <div class="toolbar" style="margin:14px 0 0">
+            <button id="btn-lic-reload" data-icon="refresh">Reload</button>
+            <button id="btn-lic-support" class="ghost" data-icon="copy" title="Copies host, user, version, build, edition, key id and source to the clipboard">Copy support info</button>
+          </div>
+        </div>
+
+        <div id="lic-candidates" class="card wide">
+          <h3 data-icon="search">Where NodeMend looked</h3>
+          <div id="lic-candidates-body" class="muted">Loading…</div>
+        </div>
+
+        <div id="lic-activate" class="card wide">
+          <h3 data-icon="key">Organisation key (optional)</h3>
+          <p class="hint">NodeMend needs no key. A signed organisation key only adds your organisation's name to the window title and reports.</p>
+          <textarea id="lic-text" class="lic-token" rows="4" spellcheck="false" placeholder="Paste your TIDYWIN1. key (a wrapped or armored .lic file is fine)"></textarea>
+          <div id="lic-check-result" class="small" style="margin:6px 0 10px"></div>
+          <div class="toolbar" style="margin-bottom:10px">
+            <button id="btn-lic-open" class="ghost" data-icon="file">Open .lic file…</button>
+            <button id="btn-lic-check" data-icon="search">Check</button>
+            <button id="btn-lic-activate" class="primary" data-icon="check">Activate</button>
+            <button id="btn-lic-remove" class="danger" data-icon="trash" hidden>Remove license</button>
+          </div>
+          <div id="lic-scopes" class="scopes">
+            <label><input type="radio" name="lic-scope" value="exe"> <b>Next to NodeMend on this drive</b> <span class="muted small" id="lic-scope-exe-hint"></span></label>
+            <label><input type="radio" name="lic-scope" value="machine"> <b>This PC, all users</b> <span class="muted small" id="lic-scope-machine-hint"></span></label>
+            <label><input type="radio" name="lic-scope" value="user"> <b>Only me</b> <span class="muted small" id="lic-scope-user-hint"></span></label>
+          </div>
+        </div>
+        <div id="lic-managed" class="card wide" hidden>
+          <h3 data-icon="lock">Activate</h3>
+          <div class="muted">Licensing is managed by your organization.</div>
+        </div>
+
+        <div id="lic-enterprise" class="card wide" data-edition="enterprise" hidden>
+          <h3 data-icon="shield">Automation and reporting</h3>
+          <div id="lic-ent-locked" class="muted" hidden><span data-icon="lock"></span> Available in the full NodeMend build.</div>
+          <div id="lic-ent-body" hidden>
+            <div class="grid two">
+              <div class="block">
+                <div class="block-head"><h2>Policy</h2><div><button id="btn-policy-reload" class="tiny" data-icon="refresh">Reload policy</button></div></div>
+                <div id="lic-policy-body" class="muted small">—</div>
+              </div>
+              <div class="block">
+                <div class="block-head"><h2>Reporting</h2><div>
+                  <button id="btn-report-send" class="tiny" data-icon="upload">Send report now</button>
+                  <button id="btn-report-open" class="tiny ghost" data-icon="ext">Open folder</button></div></div>
+                <div id="lic-report-body" class="muted small">—</div>
+                <div id="lic-report-edit" class="toolbar" style="margin:8px 0 0" hidden>
+                  <input id="lic-report-dir" type="text" placeholder="\\server\share\nodemend or C:\Reports" autocomplete="off" spellcheck="false">
+                  <button id="btn-report-dir-save" class="tiny" data-icon="check">Save</button>
+                </div>
+              </div>
+              <div class="block">
+                <div class="block-head"><h2>Audit</h2><div><button id="btn-audit-open" class="tiny ghost" data-icon="ext">Open folder</button></div></div>
+                <div id="lic-audit-path" class="muted small mono">—</div>
+                <pre id="lic-audit-tail" class="mono small audit-tail"></pre>
+              </div>
+              <div class="block">
+                <div class="block-head"><h2>Unattended</h2><div>
+                  <button id="btn-cmd-copy" class="tiny ghost" data-icon="copy">Copy</button>
+                  <button id="btn-sched-install" class="tiny" data-icon="clock">Install weekly task (Sun 03:00)</button>
+                  <button id="btn-sched-remove" class="tiny danger" data-icon="trash">Remove task</button></div></div>
+                <pre id="lic-cmdline" class="mono small cmdline">—</pre>
+                <div id="lic-sched-status" class="muted small" style="margin:6px 0">—</div>
+                <div id="lic-exit-legend" class="muted small"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LOG ============ -->
+    <div id="log-panel">
+      <div id="log-head">
+        <span id="log-title">Activity log</span><span id="log-spinner" class="spinner" hidden></span>
+        <span class="grow"></span>
+        <button class="ghost tiny" id="btn-log-copy" data-icon="copy">Copy</button>
+        <button class="ghost tiny" id="btn-log-clear">Clear</button>
+        <button class="ghost tiny" id="btn-log-toggle" data-icon="chev" title="Collapse"></button>
+      </div>
+      <pre id="log"></pre>
+    </div>
+  </main>
+</div>
+<script src="js/util.js"></script>
+<script src="js/app.js"></script>
+<script src="js/extras.js"></script>
+</body>
+</html>

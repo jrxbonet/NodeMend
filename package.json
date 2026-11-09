@@ -1,0 +1,32 @@
+{
+  "name": "nodemend",
+  "version": "1.5.0",
+  "description": "Free and open-source Windows maintenance toolkit: cleaner, diagnostics, repairs, updates, startup manager, unattended runs and reports",
+  "author": "Namer-Lavan",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://namer-lavan.com/downloads/nodemend",
+  "repository": { "type": "git", "url": "git+https://github.com/jrxbonet/NodeMend.git" },
+  "bugs": { "url": "https://github.com/jrxbonet/NodeMend/issues" },
+  "main": "main.js",
+  "type": "commonjs",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "start:solo": "set NODEMEND_EDITION=solo&& electron .",
+    "smoke": "node test/license.test.js && electron smoketest.js",
+    "test:license": "node test/license.test.js",
+    "icon": "electron makeicon.js && node scripts/png2ico.js icon.png icon.ico",
+    "package": "node scripts/build.js --edition=enterprise --format=folder",
+    "package:solo": "node scripts/build.js --edition=solo --format=folder",
+    "portable": "node scripts/build.js --edition=enterprise --format=portable",
+    "portable:solo": "node scripts/build.js --edition=solo --format=portable",
+    "build": "node scripts/build.js --edition=enterprise --format=both",
+    "build:all": "node scripts/build.js --edition=solo --format=both && node scripts/build.js --edition=enterprise --format=both",
+    "keygen": "node tools/keygen.js"
+  },
+  "devDependencies": {
+    "@electron/packager": "^18.3.6",
+    "electron": "^42.0.0",
+    "electron-builder": "^26.15.3"
+  }
+}

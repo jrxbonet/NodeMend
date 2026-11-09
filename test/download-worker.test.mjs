@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import worker, { releaseKey } from '../hosting/download-worker.mjs';
+const address = 'https://namer-lavan.com/downloads/nodemend/1.5.0/NodeMend-portable.exe';
+const bytes = new Uint8Array([1, 2, 3]); let calls = 0;
+const metadata = { size: bytes.length, httpEtag: '"fixture"' };
+const env = { RELEASES: { async get(key) { calls++; assert.equal(key, '1.5.0/NodeMend-portable.exe'); return { ...metadata, body: bytes }; }, async head() { return metadata; } } };
+assert.equal(releaseKey(address), '1.5.0/NodeMend-portable.exe');
+assert.equal(releaseKey(address.replace('NodeMend-portable.exe', '../../keys/signing.pem')), null);
+assert.equal(releaseKey(address.replace('1.5.0/', '1.5.0%2f')), null);
+assert.equal((await worker.fetch(new Request(address, { method: 'POST' }), env)).status, 405);
+const full = await worker.fetch(new Request(address), env);
+assert.equal(full.status, 200); assert.equal(full.headers.get('content-length'), '3'); assert.deepEqual(new Uint8Array(await full.arrayBuffer()), bytes);
+assert.equal((await worker.fetch(new Request(address, { method: 'HEAD' }), env)).body, null);
+assert.equal((await worker.fetch(new Request(address, { headers: { 'If-None-Match': '"fixture"' } }), env)).status, 304);
+assert.equal((await worker.fetch(new Request(address.replace('NodeMend-portable.exe', 'keys.txt')), env)).status, 404);
+assert.equal(calls, 2);
+console.log('Download allowlist, GET/HEAD, cache validator and mutation rejection: PASS');
